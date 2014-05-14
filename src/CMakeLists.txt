@@ -363,6 +363,7 @@ client/notification/new-messages-indicator.vala
 client/notification/new-messages-monitor.vala
 client/notification/null-indicator.vala
 client/notification/unity-launcher.vala
+client/notification/startup-notification.vala
 
 client/sidebar/sidebar-branch.vala
 client/sidebar/sidebar-common.vala

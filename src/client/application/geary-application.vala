@@ -109,7 +109,7 @@ public class GearyApplication : Gtk.Application {
             exit_status = 1;
             return true;
         }
-        
+
         activate();
         foreach (unowned string arg in args) {
             if (arg != null && arg.has_prefix(Geary.ComposedEmail.MAILTO_SCHEME))
@@ -153,8 +153,10 @@ public class GearyApplication : Gtk.Application {
     public bool present() {
         if (controller == null || controller.main_window == null)
             return false;
-        
-        controller.main_window.present();
+        if (!controller.main_window.get_realized()){
+            controller.main_window.show_all();
+        }else
+            controller.main_window.present();
         return true;
     }
     

@@ -96,9 +96,12 @@ public class MainWindow : Gtk.ApplicationWindow {
     }
     
     private bool on_delete_event() {
-        GearyApplication.instance.exit();
-        
-        return true;
+        if (Args.hidden_startup || GearyApplication.instance.config.startup_notifications){
+             return hide_on_delete();
+        } else {
+            GearyApplication.instance.exit();
+            return true;
+        }
     }
 
     // Fired on window resize, window move and possibly other events

@@ -79,6 +79,8 @@ public class GearyController : Geary.BaseObject {
     
     public Geary.App.ConversationMonitor? current_conversations { get; private set; default = null; }
     
+    public StartupNotification startup_notification { get; private set; }
+
     private Geary.Account? current_account = null;
     private Gee.HashMap<Geary.Account, Geary.App.EmailStore> email_stores
         = new Gee.HashMap<Geary.Account, Geary.App.EmailStore>();
@@ -217,7 +219,10 @@ public class GearyController : Geary.BaseObject {
         Geary.Engine.instance.opened.connect(on_engine_opened);
         
         main_window.conversation_list_view.grab_focus();
-        
+       
+        // For handling desktop file for startup notifications
+        startup_notification = new StartupNotification();
+
         // Start Geary.
         try {
             yield Geary.Engine.instance.open_async(GearyApplication.instance.get_user_data_directory(), 
@@ -916,7 +921,7 @@ public class GearyController : Geary.BaseObject {
      */
     private void display_main_window_if_ready() {
         if (did_attempt_open_all_accounts() && !upgrade_dialog.visible &&
-            !cancellable_open_account.is_cancelled())
+            !cancellable_open_account.is_cancelled() && !Args.hidden_startup)
             main_window.show_all();
     }
     
